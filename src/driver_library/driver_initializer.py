@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from enum import Enum
 
+
 class DriverInitializer:
 
     def get_driver(self, browser):
