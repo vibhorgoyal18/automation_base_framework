@@ -1,15 +1,22 @@
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as expected_conditions
+from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.common.keys import Keys
 
 
-class DriverMethods:
+class DriverOperations:
+
+    def test(self):
+        driver = webdriver.Chrome()
+        driver.find_element().send_keys()
 
     def __init__(self, driver):
         if not isinstance(driver, webdriver.Chrome) or isinstance(driver, webdriver.Firefox) or \
                 isinstance(driver, webdriver.Safari):
             raise TypeError('webdriver must be an instance of webdriver')
         self.__driver = driver
+        self.__check_types = self.__CheckTypes()
 
     def _get_url(self, url):
         self.__driver.get(url=url)
@@ -80,3 +87,20 @@ class DriverMethods:
     def _wait_for_element_visible(self, by, locator, timeout_in_seconds):
         WebDriverWait(self.__driver, timeout=timeout_in_seconds).until(
             expected_conditions.presence_of_element_located((by, locator)))
+
+    def click(self, element):
+        self.__check_types.check_web_element(element)
+        element.click()
+        return self
+
+    def set_text(self, element, text):
+        self.__check_types.check_web_element(element)
+        element.send_keys(text)
+        return self
+
+    class __CheckTypes:
+
+        @staticmethod
+        def check_web_element(element):
+            if not isinstance(element, WebElement):
+                raise TypeError('element should be an instance of WebElement')

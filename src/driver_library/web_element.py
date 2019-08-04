@@ -10,9 +10,10 @@ class WebElement:
             raise TypeError('webdriver must be an instance of webdriver')
         self.__driver = driver
 
-    def _get_element(self, by, using, multiple = False):
+    def _get_element(self, by, using, multiple=False):
         if by and using:
-            if not isinstance(by, By):
+            if by not in ('name', 'id', 'xpath', 'link text', 'partial link text', 'tag name', 'class name'
+                    , 'css selector',):
                 raise TypeError('by should be an instance of selenium.webdriver.common.by.By')
             else:
                 if multiple:
